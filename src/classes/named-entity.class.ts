@@ -1,3 +1,5 @@
+import { camelCase } from 'lodash';
+import { trimClassType } from '../util';
 import { getFlowSocketClass } from '../util/classes.util';
 import { Application } from './application.class';
 import { Module } from './module.class';
@@ -12,11 +14,7 @@ export class NamedEntity {
     const Class = getFlowSocketClass(this.constructor);
     return (
       this.options?.name ||
-      Class.name
-        .split(/([^^])[A-Z]/)
-        .slice(0, 2)
-        .join('')
-        .toLowerCase() ||
+      camelCase(trimClassType(Class.name)) ||
       this.module.name
     );
   }

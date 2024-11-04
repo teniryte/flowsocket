@@ -12,4 +12,4 @@ export { AppController } from './decorators/controller.decorator';
 export { Inject } from './decorators/inject.decorator';
 export { getMetadata } from './util/meta.util';
 export { Endpoint } from './decorators/endpoint.decorator';
-export const x = 5;
+export { Application } from './classes/application.class';
