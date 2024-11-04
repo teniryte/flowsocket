@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist-tests", // Output directory for compiled test files
+    "module": "commonjs", // Use CommonJS module system (Jest requires CommonJS)
+    "esModuleInterop": true, // Interoperability between CommonJS and ES modules
+    "types": ["jest"] // Include Jest type definitions
+  },
+  "include": ["tests/**/*.test.ts"], // Include all test files
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "declaration": true,
+    "rootDir": "./src",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "module": "CommonJS",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "outDir": "dist",
+    "lib": ["ES6", "DOM"],
+
+    "experimentalDecorators": true,
+
+    "incremental": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+
+    "importHelpers": true,
+    "downlevelIteration": true,
+
+    "strictNullChecks": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false
+  },
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/**/*.test.ts",
+    "src/util/test-data.ts"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "{{packageName}}",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --watch src --watch /home/teu/work/packages/flowsocket/dist -e ts,js --exec ts-node src/main.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate:schema": "cat src/**/schemas/*.prisma > prisma/schema.prisma && node scripts/clear-schema.js",
+    "prisma:generate": "npm run generate:schema && prisma generate 00"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "^5.21.1",
+    "dotenv": "^16.4.5",
+    "flowsocket": "^0.0.4",
+    "prisma": "^5.21.1"
+  },
+  "devDependencies": {
+    "@tsconfig/node18": "18.2.4",
+    "@tsconfig/recommended": "1.0.7",
+    "@tsconfig/strictest": "2.0.5",
+    "@types/inquirer": "9.0.7",
+    "@types/node": "22.1.0",
+    "@typescript-eslint/eslint-plugin": "8.0.0",
+    "@typescript-eslint/parser": "8.0.0",
+    "eslint": "9.8.0",
+    "eslint-config-prisma": "0.6.0",
+    "eslint-plugin-deprecation": "3.0.0",
+    "eslint-plugin-only-warn": "1.1.0",
+    "eslint-plugin-prefer-arrow": "1.2.3",
+    "eslint-plugin-tsdoc": "0.3.0",
+    "execa": "9.3.0",
+    "fast-glob": "3.3.2",
+    "floggy": "0.3.5",
+    "fs-jetpack": "5.1.0",
+    "inquirer": "9.3.6",
+    "markdown-toc": "1.2.0",
+    "nodemon": "^3.1.7",
+    "pnpm": "^9.12.3",
+    "publint": "^0.2.9",
+    "ts-node": "^10.9.2",
+    "tsx": "4.16.5",
+    "typescript": "5.5.4",
+    "vitest": "2.0.5"
+  }
+}

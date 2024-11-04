@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // Поддержка современных возможностей JavaScript
+    "module": "NodeNext", // Использование ESM-модуля в Node.js
+    "moduleResolution": "nodenext", // Специальная настройка для ESM в Node.js
+    "outDir": "./dist", // Папка для вывода скомпилированных файлов
+    "rootDir": "./src", // Корневая директория исходного кода
+    "declaration": true, // Генерация .d.ts файлов для типов
+    "declarationMap": true, // Генерация карт для .d.ts файлов
+    "sourceMap": true, // Генерация карт для исходного кода
+    "strict": true, // Включение строгого режима TypeScript
+    "esModuleInterop": true, // Поддержка импорта CommonJS модулей
+    "skipLibCheck": true, // Пропуск проверки типов библиотек для ускорения сборки
+    "strictNullChecks": false,
+    "forceConsistentCasingInFileNames": true, // Проверка согласованного использования регистра
+    "noImplicitAny": true, // Запрет на использование `any` без явного указания
+    "noUnusedLocals": true, // Проверка неиспользуемых локальных переменных
+    "noUnusedParameters": true, // Проверка неиспользуемых параметров функций
+    "noImplicitReturns": true, // Проверка, чтобы все ветки функции возвращали значения
+    "incremental": true, // Инкрементальная компиляция для ускорения пересборки
+    "strictPropertyInitialization": false,
+    "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo", // Кэширование для ускоренной пересборки
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["src"], // Включение исходного кода
+  "exclude": ["dist", "node_modules", "**/*.test.ts"] // Исключение выходной директории, тестов и зависимостей
+}
