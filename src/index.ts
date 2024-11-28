@@ -1,3 +1,5 @@
+import { ConsoleLogger } from './loggers/console.logger';
+
 export { App } from './decorators/app.decorator';
 export { OnSocketEvent } from './decorators/on-socket-event.decorator';
 export { globals } from './core/globals';
@@ -13,3 +15,5 @@ export { Inject } from './decorators/inject.decorator';
 export { getMetadata } from './util/meta.util';
 export { Endpoint } from './decorators/endpoint.decorator';
 export { Application } from './classes/application.class';
+
+export const logger = new ConsoleLogger();

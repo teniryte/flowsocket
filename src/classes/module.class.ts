@@ -6,6 +6,7 @@ import { Application } from './application.class';
 import { Controller } from './controller.class';
 import { NamedEntity } from './named-entity.class';
 import { Service } from './service.class';
+import { logger } from '..';
 
 export class Module extends NamedEntity {
   application?: Application;
@@ -30,6 +31,8 @@ export class Module extends NamedEntity {
       const controller = new Controller(this, meta, Controller);
       this.controllers[controller.name] = controller;
     });
+
+    logger.info(`Module «${this.name}» initialized.`);
   }
 
   getEndpoints() {

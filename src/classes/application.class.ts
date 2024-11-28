@@ -6,6 +6,7 @@ import { getClassMethodsByRole, getMetadata } from '../util/meta.util';
 import { Module } from './module.class';
 import { CServer as Server } from './server.class';
 import { Service } from './service.class';
+import { logger } from '..';
 
 export class Application {
   name: string;
@@ -63,9 +64,15 @@ export class Application {
     this.modules.forEach((module) => {
       const endpoints = module.getEndpoints();
       endpoints.forEach((endpoint) => {
+        logger.info(
+          `Endpoint «${endpoint.controller.name}/${endpoint.endpointName}» initialized.`,
+        );
         this.server.on(
           `endpoint:${endpoint.controller.name}/${endpoint.endpointName}`,
           async (...args: any[]) => {
+            logger.info(
+              `Endpoint «${endpoint.controller.name}/${endpoint.endpointName}» called.`,
+            );
             return await endpoint.method.apply(endpoint.controller, args);
           },
         );
