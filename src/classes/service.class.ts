@@ -3,7 +3,6 @@ import { Module } from './module.class';
 import type { IServiceOptions } from '../interfaces/service-options.interface';
 import { Application } from './application.class';
 import { NamedEntity } from './named-entity.class';
-import { logger } from '..';
 
 export class Service extends NamedEntity {
   application: Application;
@@ -16,6 +15,6 @@ export class Service extends NamedEntity {
     this.module = module;
     this.application = module.application;
 
-    logger.info(`Service «${this.name}» initialized.`);
+    this.application.logger.info(`Service «${this.name}» initialized.`);
   }
 }

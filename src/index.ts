@@ -16,5 +16,4 @@ export { getMetadata } from './util/meta.util';
 export { Endpoint } from './decorators/endpoint.decorator';
 export { Application } from './classes/application.class';
 export { Dto } from './decorators/dto.decorator';
-
-export const logger = new ConsoleLogger();
+export { LogLevel } from './enums/log-level.enum';

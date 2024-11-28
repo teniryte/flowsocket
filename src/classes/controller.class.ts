@@ -1,4 +1,3 @@
-import { logger } from '..';
 import { IControllerOptions } from '../interfaces/controller-options.interface';
 import { Application } from './application.class';
 import { Module } from './module.class';
@@ -20,6 +19,6 @@ export class Controller extends NamedEntity {
     this.module = module;
     this.application = module.application;
 
-    logger.info(`Controller «${this.name}» initialized.`);
+    this.application.logger.info(`Controller «${this.name}» initialized.`);
   }
 }

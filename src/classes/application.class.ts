@@ -6,13 +6,16 @@ import { getClassMethodsByRole, getMetadata } from '../util/meta.util';
 import { Module } from './module.class';
 import { CServer as Server } from './server.class';
 import { Service } from './service.class';
-import { logger } from '..';
 import { validate } from 'class-validator';
+import { Logger } from '../interfaces/logger.interface';
+import { ConsoleLogger } from '../loggers/console.logger';
+import { LogLevelNames } from '../enums/log-level.enum';
 
 export class Application {
   name: string;
   options: IApplicationOptions;
   Class: any;
+  logger: Logger;
   server: Server;
 
   modules: Module[];
@@ -29,6 +32,9 @@ export class Application {
       host: 'localhost',
       port: 3000,
     });
+    this.logger = new ConsoleLogger(
+      LogLevelNames.indexOf(options.logLevel || 'info'),
+    );
     this.server = new Server(this.options.host, this.options.port);
     this.modules =
       options.modules?.map(
@@ -65,13 +71,13 @@ export class Application {
     this.modules.forEach((module) => {
       const endpoints = module.getEndpoints();
       endpoints.forEach((endpoint) => {
-        logger.info(
+        this.logger.log(
           `Endpoint «${endpoint.controller.name}/${endpoint.endpointName}» initialized.`,
         );
         this.server.on(
           `endpoint:${endpoint.controller.name}/${endpoint.endpointName}`,
           async (...args: any[]) => {
-            logger.info(
+            this.logger.log(
               `Endpoint «${endpoint.controller.name}/${endpoint.endpointName}» called.`,
             );
             try {
@@ -103,7 +109,7 @@ export class Application {
                 result,
               };
             } catch (err) {
-              logger.error(err);
+              this.logger.error(err);
               return {
                 success: false,
                 errors: [
@@ -123,7 +129,7 @@ export class Application {
   start() {
     this.initSocketEvents();
     this.server.start();
-    console.log(
+    this.logger.info(
       `Listening application ${this.name} on ${this.options.host}:${this.options.port}...`,
     );
   }
