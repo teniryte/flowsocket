@@ -7,6 +7,7 @@ import { Module } from './module.class';
 import { CServer as Server } from './server.class';
 import { Service } from './service.class';
 import { logger } from '..';
+import { validate } from 'class-validator';
 
 export class Application {
   name: string;
@@ -73,7 +74,46 @@ export class Application {
             logger.info(
               `Endpoint «${endpoint.controller.name}/${endpoint.endpointName}» called.`,
             );
-            return await endpoint.method.apply(endpoint.controller, args);
+            try {
+              const DtoClass = getMetadata(endpoint.method, 'dto');
+              if (DtoClass) {
+                const dto = new DtoClass();
+                Object.assign(dto, args[0]);
+                const validationResult = await validate(dto);
+                if (validationResult.length) {
+                  return {
+                    success: false,
+                    errors: validationResult.map((item) => ({
+                      type: 'validation',
+                      constraints: item.constraints,
+                      property: item.property,
+                      target: item.target,
+                      message:
+                        item.constraints[Object.keys(item.constraints)[0]],
+                    })),
+                  };
+                }
+              }
+              const result = await endpoint.method.apply(
+                endpoint.controller,
+                args,
+              );
+              return {
+                success: true,
+                result,
+              };
+            } catch (err) {
+              logger.error(err);
+              return {
+                success: false,
+                errors: [
+                  {
+                    type: 'internal',
+                    message: 'internal server error',
+                  },
+                ],
+              };
+            }
           },
         );
       });
