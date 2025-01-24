@@ -26,6 +26,7 @@ export class CServer {
   constructor(private readonly host: string, private readonly port: number) {
     this.httpServer = createServer();
     this.io = new Server(this.httpServer, {
+      transports: ["websocket"],
       cors: {
         origin: '*',
       },
