@@ -26,6 +26,7 @@ export class Application {
 
   constructor(name: string, Class: any, options: IApplicationOptions) {
     this.name = name;
+
     this.Class = Class;
     this.options = mergeDefaults(options, {
       path: process.cwd(),
@@ -40,6 +41,14 @@ export class Application {
       options.modules?.map(
         (Module) => new Module(this, getMetadata(Module, 'module')),
       ) || [];
+  }
+
+  setLocal(name: string, value: string | null) {
+    this.server.emit('localStorage', name, value);
+  }
+
+  removeLocal(name: string) {
+    this.setLocal(name, null);
   }
 
   getEndpointsMap() {

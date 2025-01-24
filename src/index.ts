@@ -17,3 +17,4 @@ export { Endpoint } from './decorators/endpoint.decorator';
 export { Application } from './classes/application.class';
 export { Dto } from './decorators/dto.decorator';
 export { LogLevel } from './enums/log-level.enum';
+export { LocalStorage } from './classes/localStorage.class';

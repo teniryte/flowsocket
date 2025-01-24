@@ -1,3 +1,5 @@
+import { LocalStorage } from '../classes/localStorage.class';
+
 export function Inject(...names: string[]) {
   return function injectClassDecorator<T extends { new (...args: any[]): {} }>(
     Class: T,
@@ -9,8 +11,12 @@ export function Inject(...names: string[]) {
         super(...args);
         Promise.resolve().then(() => {
           names.forEach((name) => {
-            const service = (this as any).application.resolveService(name);
-            (this as any)[name] = service;
+            if (name === 'localStorage') {
+              (this as any)[name] = new LocalStorage((this as any).application);
+            } else {
+              const service = (this as any).application.resolveService(name);
+              (this as any)[name] = service;
+            }
           });
         });
       }
