@@ -146,10 +146,10 @@ export class Application {
                 d,
                 local,
               );
-              const result = await endpoint.method.apply(
-                endpoint.controller,
-                args,
-              );
+              const result = await endpoint.method.apply(endpoint.controller, [
+                ...args,
+                local,
+              ]);
               return {
                 success: true,
                 result,
