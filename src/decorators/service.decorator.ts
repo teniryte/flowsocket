@@ -1,4 +1,3 @@
-import type { IApplicationOptions } from '../interfaces/application-options.interface.js';
 import 'reflect-metadata';
 import { setMetadata } from '../util/meta.util.js';
 import type { IServiceOptions } from '../interfaces/service-options.interface.js';

@@ -6,6 +6,7 @@ import { Application } from './application.class';
 import { Controller } from './controller.class';
 import { NamedEntity } from './named-entity.class';
 import { Service } from './service.class';
+import { Middleware } from './middleware.class';
 
 export class Module extends NamedEntity {
   application?: Application;
@@ -14,6 +15,9 @@ export class Module extends NamedEntity {
   } = {};
   controllers?: {
     [name: string]: Controller;
+  } = {};
+  middlewares?: {
+    [name: string]: Middleware;
   } = {};
 
   constructor(application: Application, options: IModuleOptions) {
@@ -29,6 +33,11 @@ export class Module extends NamedEntity {
       const meta = getMetadata(Controller, 'controller');
       const controller = new Controller(this, meta, Controller);
       this.controllers[controller.name] = controller;
+    });
+    options.middlewares?.forEach((Middleware) => {
+      const meta = getMetadata(Middleware, 'middleware');
+      const middleware = new Middleware(this, meta);
+      this.middlewares[middleware.name] = middleware;
     });
 
     this.application.logger.info(`Module «${this.name}» initialized.`);

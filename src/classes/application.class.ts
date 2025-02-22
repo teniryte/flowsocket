@@ -10,6 +10,7 @@ import { validate } from 'class-validator';
 import { Logger } from '../interfaces/logger.interface';
 import { ConsoleLogger } from '../loggers/console.logger';
 import { LogLevelNames } from '../enums/log-level.enum';
+import { Controller } from './controller.class';
 
 export class Application {
   name: string;
@@ -47,6 +48,19 @@ export class Application {
     this.server.emit('localStorage', name, value);
   }
 
+  getLocal(name: string) {
+    return new Promise((resolve) => {
+      this.server.emit('localStorage.get', name, (err: any, response: any) => {
+        console.log('GET_LOCAL', { err, response });
+        if (err) {
+          resolve(null);
+        } else {
+          resolve(response[0]);
+        }
+      });
+    });
+  }
+
   removeLocal(name: string) {
     this.setLocal(name, null);
   }
@@ -69,6 +83,20 @@ export class Application {
     return endpointsMap;
   }
 
+  async applyMiddleware(
+    controller: Controller,
+    name: string,
+    dto: any,
+    local: any,
+  ) {
+    const middlewares = this.modules.flatMap((module) =>
+      Object.values(module.middlewares),
+    );
+    for (const middleware of middlewares) {
+      await middleware.use({ controller, name, dto, local });
+    }
+  }
+
   initSocketEvents() {
     const methods = getClassMethodsByRole(this.constructor, 'socket-event');
     methods.forEach((method) => {
@@ -86,13 +114,16 @@ export class Application {
         this.server.on(
           `endpoint:${endpoint.controller.name}/${endpoint.endpointName}`,
           async (...args: any[]) => {
+            const local = args.pop();
             this.logger.log(
               `Endpoint «${endpoint.controller.name}/${endpoint.endpointName}» called.`,
             );
+            let d = null;
             try {
               const DtoClass = getMetadata(endpoint.method, 'dto');
               if (DtoClass) {
                 const dto = new DtoClass();
+                d = dto;
                 Object.assign(dto, args[0]);
                 const validationResult = await validate(dto);
                 if (validationResult.length) {
@@ -109,6 +140,12 @@ export class Application {
                   };
                 }
               }
+              await this.applyMiddleware(
+                endpoint.controller,
+                endpoint.endpointName,
+                d,
+                local,
+              );
               const result = await endpoint.method.apply(
                 endpoint.controller,
                 args,

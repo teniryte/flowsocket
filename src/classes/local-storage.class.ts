@@ -10,4 +10,8 @@ export class LocalStorage {
   remove(name: string) {
     this.application.removeLocal(name);
   }
+
+  async get(name: string) {
+    return await this.application.getLocal(name);
+  }
 }
