@@ -21,4 +21,6 @@ export class Controller extends NamedEntity {
 
     this.application.logger.info(`Controller «${this.name}» initialized.`);
   }
+
+  onInit() {}
 }

@@ -17,4 +17,6 @@ export class Service extends NamedEntity {
 
     this.application.logger.info(`Service «${this.name}» initialized.`);
   }
+
+  onInit() {}
 }

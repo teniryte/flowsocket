@@ -27,11 +27,13 @@ export class Module extends NamedEntity {
     options.services?.forEach((Service) => {
       const meta = getMetadata(Service, 'service');
       const service = new Service(this, meta, Service);
+      service.onInit();
       this.services[service.name] = service;
     });
     options.controllers?.forEach((Controller) => {
       const meta = getMetadata(Controller, 'controller');
       const controller = new Controller(this, meta, Controller);
+      controller.onInit();
       this.controllers[controller.name] = controller;
     });
     options.middlewares?.forEach((Middleware) => {
